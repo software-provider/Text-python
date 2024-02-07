@@ -1,9 +1,9 @@
 import re
 import os
-import random
 import tarfile
 import urllib
 from torchtext import data
+import secrets
 
 
 class TarDataset(data.Dataset):
@@ -103,7 +103,7 @@ class MR(TarDataset):
         """
         path = cls.download_or_unzip(root)
         examples = cls(text_field, label_field, path=path, **kwargs).examples
-        if shuffle: random.shuffle(examples)
+        if shuffle: secrets.SystemRandom().shuffle(examples)
         dev_index = -1 * int(dev_ratio*len(examples))
 
         return (cls(text_field, label_field, examples=examples[:dev_index]),
